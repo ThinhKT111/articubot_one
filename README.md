@@ -8,6 +8,8 @@ Note that each directory currently has at least one file in it to ensure that gi
 
 I add the collision beside the visual to have a different view in the robot 
 
+source install/setup.bash : 
+
 ros2 launch articubot_one rsp.launch.py : launching that file where articubot_one is whatever you called your package
 
 colcon build --symlink-install : building your workspace
@@ -16,3 +18,14 @@ rviz2 : open rviz2 to view the simulation of the robot
 rviz2 -d src/articubot_one/config/view_bot.rviz : view with the current file 
 
 ros2 run joint_state_publisher_gui joint_state_publisher_gui :  to resolve the problem that the wheels aren't displayed correctly and see the wheels visualised
+
+ros2 launch articubot_one rsp.launch.py use_sim_time:=true : launch robot_state_publisher with sim time using the following command
+ros2 launch gazebo_ros gazebo.launch.py : running Gazebo using the launch file provided by the gazebo_ros package
+ros2 run gazebo_ros spawn_entity.py -topic robot_description -entity articubot_one : spawning the robot using the spawn script provided by gazebo_ros
+
+ros2 launch articubot_one launch_sim.launch.py : run with gazebo
+ros2 launch articubot_one launch_sim.launch.py world:=./src/articubot_one/worlds/obstacles.world : run robot with the current world
+
+ros2 run teleop_twist_keyboard teleop_twist_keyboard : using tool called teleop_twist_keybroad ( can changed by using joystick with teleop_twist_joy -- teleop_node and joy -- joy_node )
+
+ros2 topic echo /cmd_vel : checking the speeds on the /cmd_vel topic (with linear and angular)
