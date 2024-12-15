@@ -9,6 +9,8 @@ Note that each directory currently has at least one file in it to ensure that gi
 I add the collision beside the visual to have a different view in the robot 
 
 source install/setup.bash : 
+source ~/dev_ws/install/setup.bash :
+source /opt/ros/humble/setup.bash
 
 ros2 launch articubot_one rsp.launch.py : launching that file where articubot_one is whatever you called your package
 
@@ -27,5 +29,14 @@ ros2 launch articubot_one launch_sim.launch.py : run with gazebo
 ros2 launch articubot_one launch_sim.launch.py world:=./src/articubot_one/worlds/obstacles.world : run robot with the current world
 
 ros2 run teleop_twist_keyboard teleop_twist_keyboard : using tool called teleop_twist_keybroad ( can changed by using joystick with teleop_twist_joy -- teleop_node and joy -- joy_node )
+ros2 run rqt_image_view rqt_image_view : viewing the result of the camera throught out this tool
 
 ros2 topic echo /cmd_vel : checking the speeds on the /cmd_vel topic (with linear and angular)
+
+ros2 control list_hardware_interfaces : seeing our hardware interfaces
+ros2 control list_controllers : listing controllers
+
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r /cmd_vel:=/diff_cont/cmd_vel_unstamped : slightly
+
+ros2 run controller_manager spawner diff_cont : interfacing with two or more wheels or motors, adjusting the speed or movement of the robot
+ros2 run controller_manager spawner joint_broad : controlling and publishing the joint positions, velocities or efforts of a robot's joints
